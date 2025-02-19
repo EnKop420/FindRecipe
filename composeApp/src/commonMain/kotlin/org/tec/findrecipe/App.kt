@@ -14,7 +14,9 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import findrecipe.composeapp.generated.resources.Res
+import findrecipe.composeapp.generated.resources.cheeseburger
 import findrecipe.composeapp.generated.resources.compose_multiplatform
+import findrecipe.composeapp.generated.resources.heart
 
 @Composable
 @Preview
@@ -32,6 +34,14 @@ fun App() {
                     Text("Compose: $greeting")
                 }
             }
+            Image(
+                painterResource(Res.drawable.cheeseburger),
+                contentDescription = "Example image"
+            )
+            Image(
+                painterResource(Res.drawable.heart),
+                contentDescription = "Example image"
+            )
         }
     }
 }
