@@ -1,10 +1,14 @@
 package org.tec.findrecipe
 
+import MinimalDropdownMenu
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
+import androidx.compose.material.DropdownMenu
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -15,7 +19,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import findrecipe.composeapp.generated.resources.Res
 import findrecipe.composeapp.generated.resources.cheeseburger
-import findrecipe.composeapp.generated.resources.compose_multiplatform
 import findrecipe.composeapp.generated.resources.heart
 
 @Composable
@@ -23,25 +26,12 @@ import findrecipe.composeapp.generated.resources.heart
 fun App() {
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
+
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) { MinimalDropdownMenu() }
             Button(onClick = { showContent = !showContent }) {
                 Text("Click me!")
             }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
-            Image(
-                painterResource(Res.drawable.cheeseburger),
-                contentDescription = "Example image"
-            )
-            Image(
-                painterResource(Res.drawable.heart),
-                contentDescription = "Example image"
-            )
         }
     }
 }
