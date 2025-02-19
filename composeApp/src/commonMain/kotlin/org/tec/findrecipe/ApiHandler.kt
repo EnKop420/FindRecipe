@@ -21,7 +21,7 @@ class ApiHandler(private val client: HttpClient) {
         }
     }
 
-    suspend fun FormatResponse(responseJson: String): RecipeClass {
+    fun FormatResponse(responseJson: String): RecipeClass {
         val jsonObject = Json.parseToJsonElement(responseJson).jsonObject
         val mealsArray = jsonObject["meals"]?.jsonArray
 
@@ -38,7 +38,7 @@ class ApiHandler(private val client: HttpClient) {
             val ingredient = meal?.get("strIngredient$i")?.jsonPrimitive?.content
             val measure = meal?.get("strMeasure$i")?.jsonPrimitive?.content
             if (!ingredient.isNullOrBlank() && !measure.isNullOrBlank()) {
-                ingredientsAndMeasurements.add("$ingredient: $measure")
+                ingredientsAndMeasurements.add("$ingredient:    $measure")
             }
         }
 
