@@ -27,6 +27,9 @@ import findrecipe.composeapp.generated.resources.cheeseburger
 import findrecipe.composeapp.generated.resources.compose_multiplatform
 import findrecipe.composeapp.generated.resources.heart
 import io.ktor.client.engine.HttpClientEngine
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -64,17 +67,15 @@ fun App(engine: HttpClientEngine) {
         }
 
         shakeDetector.onShake {
-            if (!refreshing)
-            {
-                refreshing = true
-                // Perform your refresh action here
-                kotlinx.coroutines.runBlocking {
-                    // Call the suspend function to get the recipe and update the state
-                    val recipe = apiRepository.GetRecipeFromApi() // Suspend function call
-                    val formattedRecipe = apiRepository.FormatResponse(recipe) // Process the result
-                    currentRecipe.value = formattedRecipe // Update the state using .value
-                }
-                refreshing = false
+            println("Shake detected")
+            refreshing = true
+            val scope = CoroutineScope(Dispatchers.IO)
+            // Perform your refresh action here
+            scope.launch{
+                // Call the suspend function to get the recipe and update the state
+                val recipe = apiRepository.GetRecipeFromApi() // Suspend function call
+                val formattedRecipe = apiRepository.FormatResponse(recipe) // Process the result
+                currentRecipe.value = formattedRecipe // Update the state using .value
             }
         }
 
