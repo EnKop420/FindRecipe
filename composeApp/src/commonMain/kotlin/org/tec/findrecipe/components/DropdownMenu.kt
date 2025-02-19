@@ -18,9 +18,10 @@ import androidx.compose.ui.unit.dp
 import findrecipe.composeapp.generated.resources.Res
 import findrecipe.composeapp.generated.resources.cheeseburger
 import org.jetbrains.compose.resources.painterResource
+import org.tec.findrecipe.ViewType
 
 @Composable
-fun MinimalDropdownMenu() {
+fun MinimalDropdownMenu(onSelectedItem: (ViewType) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
@@ -32,7 +33,7 @@ fun MinimalDropdownMenu() {
             border = null
         ) {
             Image(
-                painterResource(Res.drawable.cheeseburger),
+                painter = painterResource(Res.drawable.cheeseburger),
                 contentDescription = "Burger button",
                 modifier = Modifier
                     .size(40.dp)
@@ -42,9 +43,12 @@ fun MinimalDropdownMenu() {
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
-            DropdownMenuItem(onClick = { /* Handle refresh! */ }) {Text("Feed")}
-            DropdownMenuItem(onClick = { /* Handle refresh! */ }) {Text("Favorites")}
-            DropdownMenuItem(onClick = { /* Handle refresh! */ }) {Text("Settings")}
+            DropdownMenuItem(onClick = { onSelectedItem(ViewType.Feed); expanded = false })
+                {Text("Feed")}
+            DropdownMenuItem(onClick = { onSelectedItem(ViewType.Favorites); expanded = false })
+                {Text("Favorites")}
+            DropdownMenuItem(onClick = { onSelectedItem(ViewType.Settings); expanded = false })
+                {Text("Settings")}
         }
     }
 }
