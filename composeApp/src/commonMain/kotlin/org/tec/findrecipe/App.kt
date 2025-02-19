@@ -1,62 +1,45 @@
 package org.tec.findrecipe
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
+import MinimalDropdownMenu
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
-import androidx.compose.material.ExtendedFloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import chaintech.network.cmpshakedetection.rememberShakeDetector
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
 import findrecipe.composeapp.generated.resources.Res
-import findrecipe.composeapp.generated.resources.cheeseburger
-import findrecipe.composeapp.generated.resources.compose_multiplatform
-import findrecipe.composeapp.generated.resources.heart
 import io.ktor.client.engine.HttpClientEngine
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+
 import org.tec.findrecipe.networking.createHttpClient
+import org.tec.findrecipe.views.FavoriteView
+import org.tec.findrecipe.views.FeedView
+import org.tec.findrecipe.views.SettingsView
 
 @Composable
 @Preview
 fun App(engine: HttpClientEngine) {
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
+        var selectedView by remember { mutableStateOf<ViewType>(ViewType.Feed) }
+
         val httpClient = remember { createHttpClient(engine) }
         val apiRepository = remember { ApiHandler(httpClient) }
         val shakeDetector = rememberShakeDetector()
         var refreshing by remember { mutableStateOf(false) }
         val defaultRecipe = RecipeClass(Title = "", Instruction = "", ImageUrl = "", IngredientsAndMeasurements = emptyList())
         val scaffoldState = rememberScaffoldState()
+        val currentRecipe = remember { mutableStateOf(defaultRecipe) }
 
-        val currentRecipe = remember { mutableStateOf(defaultRecipe) } // Initializing as null
-
-        //Start detecting shakes in a LaunchedEffect block
+        // Start detecting shakes
         LaunchedEffect(Unit) {
             shakeDetector.start()
             kotlinx.coroutines.runBlocking {
-                // Call the suspend function to get the recipe and update the state
-                val recipe = apiRepository.GetRecipeFromApi() // Suspend function call
-                val formattedRecipe = apiRepository.FormatResponse(recipe) // Process the result
-                currentRecipe.value = formattedRecipe // Update the state using .value
+                val recipe = apiRepository.GetRecipeFromApi()
+                val formattedRecipe = apiRepository.FormatResponse(recipe)
+                currentRecipe.value = formattedRecipe
             }
         }
 
@@ -69,36 +52,32 @@ fun App(engine: HttpClientEngine) {
         shakeDetector.onShake {
             println("Shake detected")
             refreshing = true
-            val scope = CoroutineScope(Dispatchers.IO)
-            // Perform your refresh action here
-            scope.launch{
-                // Call the suspend function to get the recipe and update the state
-                val recipe = apiRepository.GetRecipeFromApi() // Suspend function call
-                val formattedRecipe = apiRepository.FormatResponse(recipe) // Process the result
-                currentRecipe.value = formattedRecipe // Update the state using .value
+            CoroutineScope(Dispatchers.IO).launch {
+                val recipe = apiRepository.GetRecipeFromApi()
+                val formattedRecipe = apiRepository.FormatResponse(recipe)
+                currentRecipe.value = formattedRecipe
             }
         }
 
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
+                MinimalDropdownMenu { selectedView = it }
+            }
+
+            when (selectedView) {
+                ViewType.Feed -> FeedView()
+                ViewType.Favorites -> FavoriteView()
+                ViewType.Settings -> SettingsView()
+            }
+
             Text(currentRecipe.value.Title)
             Button(onClick = { showContent = !showContent }) {
-
+                Text("Toggle Content")
             }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
-            Image(
-                painterResource(Res.drawable.cheeseburger),
-                contentDescription = "Example image"
-            )
-            Image(
-                painterResource(Res.drawable.heart),
-                contentDescription = "Example image"
-            )
         }
     }
+}
+
+enum class ViewType {
+    Feed, Favorites, Settings
 }
