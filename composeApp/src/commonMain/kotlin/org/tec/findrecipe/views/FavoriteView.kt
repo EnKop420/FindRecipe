@@ -16,7 +16,9 @@ import androidx.compose.foundation.lazy.items // ✅ Import this!
 
 
 @Composable
-fun FavoriteView(favoritesList: List<RecipeClass>, onRecipeClick: (RecipeClass) -> Unit) {
+fun FavoriteView(favoritesList: List<RecipeClass>,
+                 onRecipeClick: (RecipeClass) -> Unit,
+                 onRemoveFavorite: (RecipeClass) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -30,9 +32,13 @@ fun FavoriteView(favoritesList: List<RecipeClass>, onRecipeClick: (RecipeClass) 
         )
 
         LazyColumn {
-//            items(favoritesList) { recipe ->
-//                FavoriteRecipeItem(recipe) { onRecipeClick(recipe) }
-//            }
+            items(favoritesList) { recipe ->
+                FavoriteRecipeItem(
+                    recipe = recipe,
+                    onClick = { onRecipeClick(recipe) },
+                    onRemove = { onRemoveFavorite(recipe) }
+                )
+            }
         }
     }
 }

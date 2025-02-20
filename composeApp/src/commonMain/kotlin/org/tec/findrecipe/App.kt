@@ -58,10 +58,16 @@ fun App(engine: HttpClientEngine, database: Database) {
                             selectedRecipe = recipe
                             selectedView = ViewType.Recipe
                         }
-                        ViewType.Favorites -> FavoriteView(favoritesList) { recipe ->
-                            selectedRecipe = recipe
-                            selectedView = ViewType.Recipe
-                        }
+                        ViewType.Favorites -> FavoriteView(
+                            favoritesList = favoritesList,
+                            onRecipeClick = { recipe ->
+                                selectedRecipe = recipe
+                                selectedView = ViewType.Recipe
+                            },
+                            onRemoveFavorite = { recipeToRemove ->
+                                favoritesList = favoritesList.filter { it != recipeToRemove }
+                            }
+                        )
                         ViewType.Settings -> SettingsView()
                         ViewType.Recipe -> selectedRecipe?.let { RecipeView(it) }
                     }
