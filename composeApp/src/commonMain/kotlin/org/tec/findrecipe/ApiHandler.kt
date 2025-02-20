@@ -10,6 +10,7 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
 class ApiHandler(private val client: HttpClient) {
+
     suspend fun GetRecipeFromApi(): String {
         try {
             val result: String = client.get("https://www.themealdb.com/api/json/v1/1/random.php").bodyAsText()
@@ -50,5 +51,9 @@ class ApiHandler(private val client: HttpClient) {
             IngredientsAndMeasurements = ingredientsAndMeasurements
         )
         return recipe
+    }
+
+    suspend fun getRecipe() : RecipeClass{
+        return FormatResponse(GetRecipeFromApi())
     }
 }

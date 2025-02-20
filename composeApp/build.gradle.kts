@@ -60,6 +60,8 @@ kotlin {
 
             implementation(libs.bundles.ktor)
             implementation("network.chaintech:compose-multiplatform-shake-detection:1.0.0")
+            implementation("io.coil-kt.coil3:coil-compose:3.1.0")
+            implementation("io.coil-kt.coil3:coil-network-okhttp:3.1.0")
         }
 
         iosMain.dependencies {
@@ -77,7 +79,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 
 android {
     namespace = "org.tec.findrecipe"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = 35
+//    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "org.tec.findrecipe"
