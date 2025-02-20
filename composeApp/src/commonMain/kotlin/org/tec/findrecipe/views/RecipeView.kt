@@ -1,5 +1,6 @@
 package org.tec.findrecipe.views
 
+<<<<<<< HEAD
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
@@ -21,6 +22,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.LocalRippleConfiguration
 import androidx.compose.material.MaterialTheme.colors
+=======
+>>>>>>> origin/master
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -55,6 +58,7 @@ import org.tec.findrecipe.RecipeClass
 fun RecipeView(recipe: RecipeClass){
 
     var currentRecipe = remember { mutableStateOf(recipe) }
+<<<<<<< HEAD
     // Create a scroll state to track scroll position
     val scrollState = rememberScrollState()
 
@@ -148,5 +152,9 @@ fun RecipeView(recipe: RecipeClass){
                 }
             }
         }
+=======
+
+    Surface(){
+>>>>>>> origin/master
     }
 }

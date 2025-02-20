@@ -47,8 +47,11 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
             implementation("app.cash.sqldelight:android-driver:2.0.2")
             implementation("io.coil-kt.coil3:coil-network-okhttp:3.1.0")
+<<<<<<< HEAD
             implementation("androidx.compose.ui:ui:1.7.8")
             implementation("androidx.compose.material3:material3:1.3.1")
+=======
+>>>>>>> origin/master
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -64,8 +67,11 @@ kotlin {
             implementation(libs.bundles.ktor)
             implementation("network.chaintech:compose-multiplatform-shake-detection:1.0.0")
             implementation("io.coil-kt.coil3:coil-compose:3.1.0")
+<<<<<<< HEAD
             implementation("app.cash.sqldelight:runtime:2.0.2")
             implementation("app.cash.sqldelight:coroutines-extensions:2.0.2")
+=======
+>>>>>>> origin/master
         }
 
         iosMain.dependencies {
@@ -114,6 +120,8 @@ dependencies {
     implementation(libs.androidx.material)
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.runtime.android)
+    implementation("androidx.compose.ui:ui:1.7.8")
+    implementation("androidx.compose.foundation:foundation:1.6.0")
     debugImplementation(compose.uiTooling)
 }
 
