@@ -84,7 +84,7 @@ fun FeedView(apiHandler: ApiHandler){
                 .padding(paddingValues)
                 .background(Color.Green) // Set color to check
         ) {
-            Text("Feed Content", color = Color.White)
+            Text(currentRecipe.value.Title)
         }
     }
 }
