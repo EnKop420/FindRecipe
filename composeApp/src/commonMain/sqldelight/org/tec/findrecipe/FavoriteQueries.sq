@@ -1,0 +1,11 @@
+selectAll:
+SELECT *
+FROM FavoriteTable;
+
+addRecipe:
+INSERT INTO FavoriteTable(Title, Instruction, ImageUrl, Ingredients)
+VALUES (?, ?, ?, ?);
+
+removeRecipe:
+DELETE FROM FavoriteTable
+WHERE Id == ?;

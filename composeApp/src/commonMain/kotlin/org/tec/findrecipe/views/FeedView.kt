@@ -45,7 +45,7 @@ import org.tec.findrecipe.RecipeClass
 @Composable
 fun FeedView(apiHandler: ApiHandler){
     val snackbarHostState = remember { SnackbarHostState() }
-    val defaultRecipe = RecipeClass("", "", "", emptyList())
+    val defaultRecipe = RecipeClass(null, "", "", "", "") // Empty instance of Recipe Class to set state of.
     val shakeDetector = rememberShakeDetector()
     val currentRecipe = remember { mutableStateOf(defaultRecipe) }
     //region Shake Detection Functions
