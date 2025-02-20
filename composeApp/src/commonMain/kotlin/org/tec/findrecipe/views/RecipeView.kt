@@ -1,7 +1,5 @@
 package org.tec.findrecipe.views
 
-<<<<<<< HEAD
-
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.Orientation
@@ -22,8 +20,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.LocalRippleConfiguration
 import androidx.compose.material.MaterialTheme.colors
-=======
->>>>>>> origin/master
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -58,7 +54,6 @@ import org.tec.findrecipe.RecipeClass
 fun RecipeView(recipe: RecipeClass){
 
     var currentRecipe = remember { mutableStateOf(recipe) }
-<<<<<<< HEAD
     // Create a scroll state to track scroll position
     val scrollState = rememberScrollState()
 
@@ -67,10 +62,10 @@ fun RecipeView(recipe: RecipeClass){
             .fillMaxSize()
             .padding(10.dp)
             .verticalScroll(scrollState)
-    ){
+    ) {
         Column(
             modifier = Modifier.padding(5.dp)  // You can also add a general padding for the whole column
-        ){
+        ) {
             Text(currentRecipe.value.Title, fontSize = 26.sp, fontWeight = FontWeight.Bold)
             AsyncImage(
                 model = currentRecipe.value.ImageUrl,
@@ -84,20 +79,20 @@ fun RecipeView(recipe: RecipeClass){
             )
             Column(
                 horizontalAlignment = Alignment.Start
-            ){
+            ) {
                 Text("Ingredients", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 Text(currentRecipe.value.IngredientsAndMeasurements, fontSize = 12.sp)
             }
             Column(
                 horizontalAlignment = Alignment.Start
-            ){
+            ) {
                 Text("Instruction", fontSize = 20.sp, fontWeight = FontWeight.Bold)
                 Text(currentRecipe.value.Instruction, fontSize = 12.sp)
             }
             Column(
                 Modifier.fillMaxWidth().wrapContentHeight().padding(10.dp),
                 horizontalAlignment = Alignment.End,
-            ){
+            ) {
                 // State to handle the size of the image (whether it's grown or not)
                 var sizeState by remember { mutableStateOf(40.dp) }
 
@@ -137,7 +132,9 @@ fun RecipeView(recipe: RecipeClass){
                     // Dialog to show the "Added to your favorite list" message
                     if (showDialog) {
                         AlertDialog(
-                            onDismissRequest = { showDialog = false }, // Dismiss the dialog when clicked outside
+                            onDismissRequest = {
+                                showDialog = false
+                            }, // Dismiss the dialog when clicked outside
                             title = { Text("Added Favorite") },
                             text = { Text("Added to your favorite list") },
                             confirmButton = {
@@ -152,9 +149,7 @@ fun RecipeView(recipe: RecipeClass){
                 }
             }
         }
-=======
-
-    Surface(){
->>>>>>> origin/master
+        Surface() {
+        }
     }
 }

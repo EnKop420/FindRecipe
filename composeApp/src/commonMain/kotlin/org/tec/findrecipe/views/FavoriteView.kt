@@ -30,9 +30,9 @@ fun FavoriteView(favoritesList: List<RecipeClass>, onRecipeClick: (RecipeClass) 
         )
 
         LazyColumn {
-            items(favoritesList) { recipe ->
-                FavoriteRecipeItem(recipe) { onRecipeClick(recipe) }
-            }
+//            items(favoritesList) { recipe ->
+//                FavoriteRecipeItem(recipe) { onRecipeClick(recipe) }
+//            }
         }
     }
 }

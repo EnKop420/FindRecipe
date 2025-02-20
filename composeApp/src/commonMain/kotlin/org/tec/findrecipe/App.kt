@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import io.ktor.client.engine.HttpClientEngine
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.tec.findrecipe.networking.createHttpClient
+import org.tec.findrecipe.ApiEngineAndDatabaseInstances.createHttpClient
 import org.tec.findrecipe.views.FavoriteView
 import org.tec.findrecipe.views.FeedView
 import org.tec.findrecipe.views.RecipeView
@@ -23,10 +23,11 @@ import org.tec.findrecipe.views.SettingsView
 
 @Composable
 @Preview
-fun App(engine: HttpClientEngine) {
+fun App(engine: HttpClientEngine, database: Database) {
     MaterialTheme {
         val client = createHttpClient(engine)
         val apiHandler = ApiHandler(client)
+
 
         var selectedView by remember { mutableStateOf<ViewType>(ViewType.Feed) }
         var selectedRecipe by remember { mutableStateOf<RecipeClass?>(null)}
