@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 
 
 @Composable
@@ -54,10 +55,9 @@ fun FavoriteRecipeItem(recipe: RecipeClass, onClick: () -> Unit, onRemove: () ->
             modifier = Modifier.weight(1f) // Makes text take up remaining space
         )
 
-        Button(onClick = {onRemove()}){
-            Text("X")
-            Modifier
-                .background(Color.Red)
+        Button(onClick = {onRemove()},
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red)){
+            Text("X", color = Color.White)
         }
     }
 }

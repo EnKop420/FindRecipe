@@ -27,11 +27,10 @@ fun App(engine: HttpClientEngine, database: Database) {
     MaterialTheme {
         val client = createHttpClient(engine)
         val apiHandler = ApiHandler(client)
-
+        val dataHandler = DataHandler(database)
 
         var selectedView by remember { mutableStateOf<ViewType>(ViewType.Feed) }
         var selectedRecipe by remember { mutableStateOf<RecipeClass?>(null)}
-        var favoritesList by remember { mutableStateOf<List<RecipeClass>>(emptyList()) }
 
         Surface {
             Box(modifier = Modifier.fillMaxSize()) {
@@ -54,22 +53,22 @@ fun App(engine: HttpClientEngine, database: Database) {
                         .padding(top = 60.dp) // Adjust padding to avoid overlapping dropdown
                 ) {
                     when (selectedView) {
-                        ViewType.Feed -> FeedView(apiHandler) { recipe ->
+                        ViewType.Feed -> FeedView(apiHandler, dataHandler) { recipe, dataHandler ->
                             selectedRecipe = recipe
                             selectedView = ViewType.Recipe
                         }
                         ViewType.Favorites -> FavoriteView(
-                            favoritesList = favoritesList,
+                            dataHandler = dataHandler,
                             onRecipeClick = { recipe ->
                                 selectedRecipe = recipe
                                 selectedView = ViewType.Recipe
                             },
                             onRemoveFavorite = { recipeToRemove ->
-                                favoritesList = favoritesList.filter { it != recipeToRemove }
+                                println("hello")
                             }
                         )
                         ViewType.Settings -> SettingsView()
-                        ViewType.Recipe -> selectedRecipe?.let { RecipeView(it) }
+                        ViewType.Recipe -> selectedRecipe?.let { RecipeView(it, dataHandler) }
                     }
                 }
             }

@@ -49,10 +49,11 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import org.tec.findrecipe.DataHandler
 import org.tec.findrecipe.RecipeClass
 
 @Composable
-fun RecipeView(recipe: RecipeClass){
+fun RecipeView(recipe: RecipeClass, dataHandler: DataHandler){
 
     var currentRecipe = remember { mutableStateOf(recipe) }
     // Create a scroll state to track scroll position
@@ -114,10 +115,13 @@ fun RecipeView(recipe: RecipeClass){
                         CoroutineScope(Dispatchers.Default).launch {
                             delay(300) // Wait for the duration of the "grow" animation
                             sizeState = 40.dp // Shrink back to the original size
-                        }
+                            val result = dataHandler.AddFavoriteRecipeToDatabase(currentRecipe.value)
 
-                        // Show the dialog
-                        showDialog = true
+                            if (result == true){
+                                // Show the dialog
+                                showDialog = true
+                            }
+                        }
                     },
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                     elevation = null

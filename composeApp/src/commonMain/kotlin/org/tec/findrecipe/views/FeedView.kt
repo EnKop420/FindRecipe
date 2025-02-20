@@ -40,11 +40,12 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import org.tec.findrecipe.ApiHandler
+import org.tec.findrecipe.DataHandler
 import org.tec.findrecipe.RecipeClass
 
 
 @Composable
-fun FeedView(apiHandler: ApiHandler, onRecipeClick: (RecipeClass) -> Unit){
+fun FeedView(apiHandler: ApiHandler, dataHandler: DataHandler, onRecipeClick: (RecipeClass, DataHandler) -> Unit){
     val snackbarHostState = remember { SnackbarHostState() }
     val defaultRecipe = RecipeClass(null, "", "", "", "") // Empty instance of Recipe Class to set state of.
     val shakeDetector = rememberShakeDetector()
@@ -110,7 +111,7 @@ fun FeedView(apiHandler: ApiHandler, onRecipeClick: (RecipeClass) -> Unit){
                     modifier = Modifier
                         .size(300.dp)
                         .clip(RoundedCornerShape(10.dp))
-                        .clickable {onRecipeClick(currentRecipe.value)},
+                        .clickable {onRecipeClick(currentRecipe.value, dataHandler)},
                     contentScale = ContentScale.Crop
                 )
 
