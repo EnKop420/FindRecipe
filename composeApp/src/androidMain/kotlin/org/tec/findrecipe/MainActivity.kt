@@ -12,13 +12,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val driverFactory = DriverFactory(this)
         setContent {
+            // Uses OkHttp for Android
             App(OkHttp.create(), createDatabase(driverFactory))
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun AppAndroidPreview() {
-//    App(OkHttp.create(), )
-//}

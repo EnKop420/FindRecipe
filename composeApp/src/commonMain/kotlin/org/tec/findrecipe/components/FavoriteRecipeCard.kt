@@ -26,7 +26,10 @@ import androidx.compose.material.ButtonDefaults
 
 
 @Composable
-fun FavoriteRecipeItem(recipe: RecipeClass, onClick: () -> Unit, onRemove: () -> Unit) {
+fun FavoriteRecipeItem(recipe: RecipeClass,
+                       onClick: () -> Unit,
+                       onRemove: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
