@@ -1,14 +1,15 @@
 package org.tec.findrecipe.views
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -43,7 +44,7 @@ import org.tec.findrecipe.RecipeClass
 
 
 @Composable
-fun FeedView(apiHandler: ApiHandler){
+fun FeedView(apiHandler: ApiHandler, onRecipeClick: (RecipeClass) -> Unit){
     val snackbarHostState = remember { SnackbarHostState() }
     val defaultRecipe = RecipeClass("", "", "", emptyList())
     val shakeDetector = rememberShakeDetector()
@@ -94,7 +95,6 @@ fun FeedView(apiHandler: ApiHandler){
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-
         ){
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -108,9 +108,9 @@ fun FeedView(apiHandler: ApiHandler){
                     model = currentRecipe.value.ImageUrl,
                     contentDescription = null,
                     modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .aspectRatio(1f)
-                        .clip(RoundedCornerShape(10.dp)),
+                        .size(300.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable {onRecipeClick(currentRecipe.value)},
                     contentScale = ContentScale.Crop
                 )
 
@@ -123,10 +123,15 @@ fun FeedView(apiHandler: ApiHandler){
                     text = currentRecipe.value.Title,
                     fontSize = 24.sp, // Larger text
                     fontWeight = FontWeight.Bold, // Bold text
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth(0.8f)
+                )
+                Text(
+                    text = "click image to view recipe",
+                    fontSize = 14.sp
+                )
 
+                Spacer(
+                    modifier = Modifier
+                        .height(100.dp)
                 )
             }
             // Button placed at the bottom
@@ -143,7 +148,7 @@ fun FeedView(apiHandler: ApiHandler){
                     .align(Alignment.BottomCenter)
                     .padding(16.dp)
             ) {
-                Text("Next Recipe")
+                Text("Press or shake for next recipe")
             }
         }
     }
