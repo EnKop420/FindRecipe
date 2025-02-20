@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +27,7 @@ import org.tec.findrecipe.networking.createHttpClient
 
 import org.tec.findrecipe.views.FavoriteView
 import org.tec.findrecipe.views.FeedView
+import org.tec.findrecipe.views.RecipeView
 import org.tec.findrecipe.views.SettingsView
 
 @Composable
@@ -49,11 +49,12 @@ fun App(engine: HttpClientEngine) {
                     .fillMaxSize()
                     .padding(10.dp)
                 ){
-                    when (selectedView) {
-                        ViewType.Feed -> FeedView(apiHandler)
-                        ViewType.Favorites -> FavoriteView()
-                        ViewType.Settings -> SettingsView()
-                    }
+                    RecipeView(RecipeClass("", "", "", emptyList()))
+//                    when (selectedView) {
+//                        ViewType.Feed -> FeedView(apiHandler)
+//                        ViewType.Favorites -> FavoriteView()
+//                        ViewType.Settings -> SettingsView()
+//                    }
                 }
             }
         }

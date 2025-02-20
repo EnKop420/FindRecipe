@@ -35,6 +35,7 @@ fun FeedView(apiHandler: ApiHandler){
     val defaultRecipe = RecipeClass("", "", "", emptyList())
     val shakeDetector = rememberShakeDetector()
     val currentRecipe = remember { mutableStateOf(defaultRecipe) }
+
     //region Shake Detection Functions
     LaunchedEffect(Unit) {
         shakeDetector.start()
