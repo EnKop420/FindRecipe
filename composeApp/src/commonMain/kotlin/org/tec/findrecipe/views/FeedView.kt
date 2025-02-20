@@ -1,11 +1,17 @@
 package org.tec.findrecipe.views
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState
@@ -15,19 +21,26 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import chaintech.network.cmpshakedetection.rememberShakeDetector
+import coil3.compose.AsyncImage
 import kotlinx.coroutines.CoroutineScope
+import androidx.compose.material.Button
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.tec.findrecipe.ApiHandler
 import org.tec.findrecipe.RecipeClass
+
 
 @Composable
 fun FeedView(apiHandler: ApiHandler){
@@ -40,8 +53,7 @@ fun FeedView(apiHandler: ApiHandler){
         shakeDetector.start()
         // Does the same as on launch function
         CoroutineScope(Dispatchers.IO).launch {
-            val recipe = apiHandler.GetRecipeFromApi()
-            val formattedRecipe = apiHandler.FormatResponse(recipe)
+            val formattedRecipe = apiHandler.getRecipe()
             withContext(Dispatchers.Main) {
                 currentRecipe.value = formattedRecipe
             }
@@ -78,13 +90,61 @@ fun FeedView(apiHandler: ApiHandler){
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ){ paddingValues ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(Color.Green) // Set color to check
-        ) {
-            Text("Feed Content", color = Color.White)
+
+        ){
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .align(Alignment.TopCenter)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                AsyncImage(
+                    model = currentRecipe.value.ImageUrl,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(10.dp)),
+                    contentScale = ContentScale.Crop
+                )
+
+                Spacer(
+                    modifier = Modifier
+                        .height(16.dp)
+                )
+
+                Text(
+                    text = currentRecipe.value.Title,
+                    fontSize = 24.sp, // Larger text
+                    fontWeight = FontWeight.Bold, // Bold text
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth(0.8f)
+
+                )
+            }
+            // Button placed at the bottom
+            Button(
+                onClick = {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val formattedRecipe = apiHandler.getRecipe()
+                        withContext(Dispatchers.Main) {
+                            currentRecipe.value = formattedRecipe
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+            ) {
+                Text("Next Recipe")
+            }
         }
     }
 }
