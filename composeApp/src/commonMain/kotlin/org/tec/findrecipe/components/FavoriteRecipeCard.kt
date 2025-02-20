@@ -1,5 +1,6 @@
 package org.tec.findrecipe.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -20,10 +21,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.compose.material.Button
 
 
 @Composable
-fun FavoriteRecipeItem(recipe: RecipeClass, onClick: () -> Unit) {
+fun FavoriteRecipeItem(recipe: RecipeClass, onClick: () -> Unit, onRemove: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -51,6 +53,12 @@ fun FavoriteRecipeItem(recipe: RecipeClass, onClick: () -> Unit) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.weight(1f) // Makes text take up remaining space
         )
+
+        Button(onClick = {onRemove()}){
+            Text("X")
+            Modifier
+                .background(Color.Red)
+        }
     }
 }
 
