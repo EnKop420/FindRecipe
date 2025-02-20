@@ -1,0 +1,19 @@
+CREATE TABLE "FavoriteTable" (
+	"Id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	"Title"	TEXT,
+	"Instruction"	TEXT,
+	"ImageUrl"	TEXT,
+	"Ingredients"	TEXT
+);
+
+selectAll:
+SELECT *
+FROM FavoriteTable;
+
+addRecipe:
+INSERT INTO FavoriteTable(Title, Instruction, ImageUrl, Ingredients)
+VALUES (?, ?, ?, ?);
+
+removeRecipe:
+DELETE FROM FavoriteTable
+WHERE Id == ?;

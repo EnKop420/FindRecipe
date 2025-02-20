@@ -45,10 +45,11 @@ class ApiHandler(private val client: HttpClient) {
 
         // Now you can create your RecipeClass manually
         val recipe = RecipeClass(
+            Id = 0, // Dummy Id won't be used but is required to instantiate a RecipeClass
             Title = title,
             Instruction = instruction,
             ImageUrl = imageUrl,
-            IngredientsAndMeasurements = ingredientsAndMeasurements
+            IngredientsAndMeasurements = ingredientsAndMeasurements.joinToString("\n")
         )
         return recipe
     }

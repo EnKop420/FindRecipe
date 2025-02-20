@@ -4,5 +4,7 @@ import androidx.compose.ui.window.ComposeUIViewController
 import io.ktor.client.engine.darwin.Darwin
 
 fun MainViewController() = ComposeUIViewController {
-    App(Darwin.create())
+    val driverFactory = DriverFactory()  // Use the iOS-specific driver factory
+    val db = createDatabase(driverFactory)  // Create the database instance
+    App(Darwin.create(), database = db)
 }

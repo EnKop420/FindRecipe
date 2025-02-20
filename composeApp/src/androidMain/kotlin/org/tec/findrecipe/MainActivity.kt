@@ -10,14 +10,15 @@ import io.ktor.client.engine.okhttp.OkHttp
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val driverFactory = DriverFactory(this)
         setContent {
-            App(OkHttp.create())
+            App(OkHttp.create(), createDatabase(driverFactory))
         }
     }
 }
 
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    App(OkHttp.create())
-}
+//@Preview
+//@Composable
+//fun AppAndroidPreview() {
+//    App(OkHttp.create(), )
+//}
